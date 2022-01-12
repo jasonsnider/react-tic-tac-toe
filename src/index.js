@@ -84,6 +84,19 @@ class Game extends React.Component {
       xIsNext: (step % 2)===0,
     });
   }
+  flipSortOrder(){
+
+    if(!this.state.flipSortOrder){
+      this.setState({
+        flipSortOrder: true
+      });
+    }else{
+      this.setState({
+        flipSortOrder: false
+      });
+    }
+
+  }
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
@@ -92,13 +105,15 @@ class Game extends React.Component {
     const moves = history.map((step, move)=>{
       let pos = this.getPosition(step.position);
 
+
+
       const desc = move ?
         `Go to move #${move}: square ${step.position}, row ${pos.row} column ${pos.col}` :
         'Go to game start';
       return (
         <li key={move}>
           <button 
-            className={(move === this.state.stepNumber)? 'btn-active' : false }
+            className={(move === this.state.stepNumber)? 'btn-active' : '' }
             onClick={()=>this.jumpTo(move)}
           >{desc}</button>
         </li>
@@ -113,6 +128,10 @@ class Game extends React.Component {
       status = 'Next player: ' + (this.state.isIsNext ? 'X' : 'O');
     }
 
+    if (this.state.flipSortOrder) {
+      moves.reverse();
+    }
+
     return (
       <div className="game">
         <div className="game-board">
@@ -123,6 +142,7 @@ class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{status}</div>
+          <button onClick={()=>{this.flipSortOrder()}}>Flip</button>
           <ol>{moves}</ol>
         </div>
       </div>
