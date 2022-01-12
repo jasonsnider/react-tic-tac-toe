@@ -24,11 +24,11 @@ class Board extends React.Component {
     let square = 0;
     let board =[];
     for(let rows = 0; rows<=2; rows++){
-        let row=[];
-        for(let cols = 0; cols<=2; cols++){
-          row.push(this.renderSquare(square++));
-        }
-        board.push(<div className="board-row">{row}</div>);
+      let row=[];
+      for(let cols = 0; cols<=2; cols++){
+        row.push(this.renderSquare(square++));
+      }
+      board.push(<div className="board-row">{row}</div>);
     }
 
     return (
