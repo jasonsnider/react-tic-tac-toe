@@ -23,9 +23,12 @@ class Board extends React.Component {
 
   render() {
     let line = [];
+    let draw = false;
     const winner = calculateWinner(this.props.squares);
+
     if(winner){
       line = winner.line;
+      draw = winner.result==='draw'?true:false;
     }
     
 
@@ -35,12 +38,14 @@ class Board extends React.Component {
       let row=[];
       for(let cols = 0; cols<=2; cols++){
         
-        if(line.includes(square)){
-          console.log(line, square);
-          row.push(this.renderSquare(square++, true));
-        }else{
-          row.push(this.renderSquare(square++, false));
+        let highlight = false;
+        if(!draw){
+          if(line.includes(square)){
+            highlight = true;
+          }
         }
+
+        row.push(this.renderSquare(square++, highlight));
         
       }
       board.push(<div className="board-row">{row}</div>);
@@ -139,7 +144,7 @@ class Game extends React.Component {
 
     let status;
     if(winner){
-      status = 'Winner: ' + winner.square;
+      status = 'Winner: ' + winner.result;
     }else{
       status = 'Next player: ' + (this.state.isIsNext ? 'X' : 'O');
     }
@@ -179,12 +184,30 @@ function calculateWinner(squares) {
     [0, 4, 8],
     [2, 4, 6],
   ];
+
+
+
+
+
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return {'square':squares[a], 'line':lines[i]};
+      return {'result':squares[a], 'square':squares[a], 'line':lines[i]};
     }
   }
+
+  let isDraw=true;
+  for(let i=0; i<squares.length; i++){
+    if(squares[i]==null){
+      isDraw=false;
+    }
+  }
+
+  if(isDraw){
+    return {'result':'draw'};
+  }
+  
+
   return null;
 }
 
