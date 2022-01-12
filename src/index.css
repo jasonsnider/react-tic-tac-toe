@@ -52,3 +52,7 @@ body {
   .btn-active{
     font-weight: bold;
   }
+
+  .victory-line{
+    background: #faed27;
+  }
